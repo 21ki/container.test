@@ -5,6 +5,12 @@ stages:
 variables:
   KUBECONFIG: /etc/deploy/config
   MAVEN_OPTS: "-Dmaven.repo.local=/opt/cache/.m2/repository"
+  K8S_ENVIRONMENT: dev
+  APPLICATION: test
+  #仓库用户
+  CONTAINER_REPO_USERNAME: ${HARBOR_REPO_USERNAME}
+  #仓库密码
+  CONTAINER_REPO_PASSWORD: ${HARBOR_REPO_PASSWORD}
 mvn_build_job:
   image: harbor.mvmyun.com/library/gradle:6.7.1-jdk11
   stage: package
