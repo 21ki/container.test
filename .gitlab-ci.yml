@@ -9,5 +9,5 @@ mvn_build_job:
   image: harbor.mvmyun.com/library/gradle:6.7.1-jdk11
   stage: package
   script:
-    - gradle jlb
+    - gradle clean jib
     - pwd
