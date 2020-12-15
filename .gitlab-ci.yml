@@ -17,4 +17,4 @@ mvn_build_job:
   script:
     - gradle clean jib
     - pwd
-    - dev
+    - echo $(date)
