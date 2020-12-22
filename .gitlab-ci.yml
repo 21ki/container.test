@@ -32,6 +32,6 @@ mvn_build_job:
     #- pwd
     - echo $(date)
     - ls -a .gradle
-    #- env
+    - env
   tags:
     - jks
