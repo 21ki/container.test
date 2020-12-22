@@ -26,7 +26,7 @@ mvn_build_job:
   stage: package
   script:
     - gradle clean jib
-    - pwd
+    #- pwd
     - echo $(date)
     - ls -a .gradle
     #- env
