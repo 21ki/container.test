@@ -18,3 +18,5 @@ mvn_build_job:
     - gradle clean jib
     - pwd
     - echo $(date)
+  tags:
+    - jks
