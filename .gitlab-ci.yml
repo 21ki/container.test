@@ -11,6 +11,10 @@ variables:
   CONTAINER_REPO_USERNAME: ${HARBOR_REPO_USERNAME}
   #仓库密码
   CONTAINER_REPO_PASSWORD: ${HARBOR_REPO_PASSWORD}
+cache:
+  paths:
+  - .gradle/
+
 mvn_build_job:
   image: harbor.mvmyun.com/library/gradle:6.7.1-jdk11
   stage: package
