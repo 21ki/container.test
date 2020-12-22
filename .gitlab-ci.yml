@@ -1,37 +1,20 @@
-# define docker image when run job
-image: harbor.mvmyun.com/library/gradle:6.7.1-jdk11
-
-# define job variables at job level
+image: docker:stable
+stages:
+  - package
+  - docker_build
 variables:
-  MAVEN_CLI_OPTS: "-gs /opt/cache/.m2/settings.xml --batch-mode"
-  MAVEN_OPTS: "-Dmaven.repo.local=/opt/cache/.m2/repository"
   KUBECONFIG: /etc/deploy/config
+  MAVEN_OPTS: "-Dmaven.repo.local=/opt/cache/.m2/repository"
   K8S_ENVIRONMENT: dev
   APPLICATION: test
   #仓库用户
   CONTAINER_REPO_USERNAME: ${HARBOR_REPO_USERNAME}
   #仓库密码
   CONTAINER_REPO_PASSWORD: ${HARBOR_REPO_PASSWORD}
-
-# define list of files that should be cached
-cache:
-  paths:
-  - /opt/cache/.m2/repository/
-  - target/
-
-# defines a job stage(default: test)
-stages:
-- package
-
-
-
-
-# define package job
-package:
+mvn_build_job:
+  image: harbor.mvmyun.com/library/gradle:6.7.1-jdk11
   stage: package
   script:
     - gradle clean jib
     - pwd
     - echo $(date)
-  tags:
-    - jks
