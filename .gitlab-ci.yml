@@ -23,6 +23,9 @@ cache:
 
 mvn_build_job:
   image: harbor.mvmyun.com/library/gradle:6.7.1-jdk11
+  services:
+    - name: docker:20.10.1-dind
+      command: ['--insecure-registry=harbor.mvmyun.com']
   stage: package
   script:
     - gradle clean jib
