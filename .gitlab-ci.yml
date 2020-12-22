@@ -23,6 +23,7 @@ mvn_build_job:
     - gradle clean jib
     - pwd
     - echo $(date)
-    - ls
+    - ls -a
+    - env
   tags:
     - jks
