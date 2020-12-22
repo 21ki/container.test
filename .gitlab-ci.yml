@@ -11,9 +11,14 @@ variables:
   CONTAINER_REPO_USERNAME: ${HARBOR_REPO_USERNAME}
   #仓库密码
   CONTAINER_REPO_PASSWORD: ${HARBOR_REPO_PASSWORD}
-#cache:
-#  paths:
-#  - .gradle/
+
+before_script:
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+
+cache:
+  paths:
+    - .gradle/wrapper
+    - .gradle/caches
 
 
 mvn_build_job:
