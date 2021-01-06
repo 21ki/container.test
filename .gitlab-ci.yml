@@ -12,7 +12,7 @@ variables:
   #发版dev测试环境
   K8S_ENVIRONMENT: dev
   #发版应用
-  APPLICATION: hotel-qunar-api
+  APPLICATION: hello-world
   #仓库用户
   CONTAINER_REPO_USERNAME: ${HARBOR_REPO_USERNAME}
   #仓库密码
