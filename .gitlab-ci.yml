@@ -1,37 +1,29 @@
-image: docker:stable
-stages:
-  - package
-  - docker_build
+#导入公共模板
+include:
+  #远程仓库方式构建导入
+  - remote: 'https://gitlab.mvmyun.com/devops/gitlabci-templates/raw/master/jobs/build.yml'
+  #项目仓库方式编译导入
+  - project: 'devops/gitlabci-templates'
+    ref: master
+    file: 'jobs/deploy.yml'
+
+#环境变量
 variables:
-  KUBECONFIG: /etc/deploy/config
-  MAVEN_OPTS: "-Dmaven.repo.local=/opt/cache/.m2/repository"
+  #发版dev测试环境
   K8S_ENVIRONMENT: dev
-  APPLICATION: test
+  #发版应用
+  APPLICATION: hotel-qunar-api
   #仓库用户
   CONTAINER_REPO_USERNAME: ${HARBOR_REPO_USERNAME}
   #仓库密码
   CONTAINER_REPO_PASSWORD: ${HARBOR_REPO_PASSWORD}
+  #mvn_deploy,mvn_install,gradle编译工具
+  BUILD_TOOL: gradle
 
+#运行前设置获取变量
 before_script:
-    - export GRADLE_USER_HOME=`pwd`/.gradle
+  - export APP_TAG="${CI_COMMIT_TAG:-${CI_COMMIT_SHA::8}}"
 
-cache:
-  paths:
-    #- .gradle/wrapper
-    - .gradle/caches
-
-
-mvn_build_job:
-  image: harbor.mvmyun.com/library/gradle:6.7.1-jdk11
-#  services:
-#    - name: docker:20.10.1-dind
-#      command: ['--insecure-registry=harbor.mvmyun.com']
-  stage: package
-  script:
-    - gradle clean jib
-    #- pwd
-    - echo $(date)
-    - ls -a .gradle
-    - env
-  tags:
-    - jks
+stages:
+  - build
+  - deploy
