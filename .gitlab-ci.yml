@@ -1,4 +1,3 @@
-
 #环境变量
 variables:
   #发版dev测试环境
@@ -14,8 +13,8 @@ variables:
 
 #运行前设置获取变量
 before_script:
-  - export APP_TAG="${CI_COMMIT_TAG:-${CI_COMMIT_SHA::8}}"
-
+  - export APP_TAG="${CI_COMMIT_TAG}"
+  - [ "$CI_COMMIT_TAG" == null ] && $CI_COMMIT_TAG=$CI_COMMIT_REF_NAME
 #gradle编译
 build_image_gradle:
   stage: build
