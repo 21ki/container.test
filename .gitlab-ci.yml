@@ -1,30 +1,30 @@
+#导入公共模板
+include:
+  #远程仓库方式构建导入
+  - remote: 'https://gitlab.mvmyun.com/devops/gitlabci-templates/raw/master/jobs/build.yml'
+  #项目仓库方式编译导入
+  - project: 'devops/gitlabci-templates'
+    ref: master
+    file: 'jobs/deploy.yml'
+
 #环境变量
 variables:
   #发版dev测试环境
   K8S_ENVIRONMENT: dev
   #发版应用
   APPLICATION: hello-world
-  #容器仓库用户密码
+  #镜像仓库用户
   CONTAINER_REPO_USERNAME: ${HARBOR_REPO_USERNAME}
+  #镜像仓库密码
   CONTAINER_REPO_PASSWORD: ${HARBOR_REPO_PASSWORD}
-  #CONTAINER_REPO_USERNAME: (if [ "${CI_COMMIT_TAG}" == "" ]; then "${ALIYUN_REPO_USERNAME}}";else ${HARBOR_REPO_USERNAME};fi);
-  #CONTAINER_REPO_PASSWORD: (if [ "${CI_COMMIT_TAG}" == "" ]; then "${ALIYUN_REPO_USERNAME}}";else ${HARBOR_REPO_PASSWORD};fi);
-  #阿里云仓库
-  ALIYUN_REPO_USERNAME: ${ALIYUN_REPO_USERNAME}
-  ALIYUN_REPO_PASSWORD: ${ALIYUN_REPO_PASSWORD}
   #mvn_deploy,mvn_install,gradle编译工具
   BUILD_TOOL: gradle
-build_aliyun_image_gradle:
-  stage: build
-  rules:
-    - if: '$CI_COMMIT_TAG !~ "/^$/" && $BUILD_TOOL == "gradle" '
-  variables:
-    CONTAINER_REPO_USERNAME: hi31813309@aliyun.com
-    CONTAINER_REPO_PASSWORD: xiaofan@1
-  tags:
-    - jks
-  script:
-    - echo ${APPLICATION}
-    - echo ${CI_COMMIT_TAG}
-    - echo ${CI_COMMIT_REF_NAME}
-    - gradle --stacktrace jib -Ppro
+
+#运行前设置获取变量
+before_script:
+  - export APP_TAG="${CI_COMMIT_TAG:-${CI_COMMIT_SHA::8}}"
+
+
+#定义流程
+stages:
+  - build
