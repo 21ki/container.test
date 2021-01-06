@@ -10,11 +10,12 @@ variables:
   CONTAINER_REPO_PASSWORD: ${HARBOR_REPO_PASSWORD}
   #mvn_deploy,mvn_install,gradle编译工具
   BUILD_TOOL: gradle
+  APP_TAG: latest
 
 #运行前设置获取变量
 before_script:
   - export APP_TAG="${CI_COMMIT_TAG}"
-  - if [ "$CI_COMMIT_TAG" == null ];then export CI_COMMIT_TAG="${CI_COMMIT_REF_NAME}";fi
+  #- if [ "$CI_COMMIT_TAG" == null ];then export CI_COMMIT_TAG="${CI_COMMIT_REF_NAME}";fi
 #gradle编译
 build_image_gradle:
   stage: build
