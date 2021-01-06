@@ -16,8 +16,6 @@ variables:
   BUILD_TOOL: gradle
 build_aliyun_image_gradle:
   stage: build
-  rules:
-    - if: '$CI_COMMIT_TAG !~ "/^$/" && $BUILD_TOOL == "gradle" '
   variables:
     CONTAINER_REPO_USERNAME: hi31813309@aliyun.com
     CONTAINER_REPO_PASSWORD: xiaofan@1
