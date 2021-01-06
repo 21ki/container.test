@@ -33,7 +33,7 @@ jib {
 	}
 	to {
 		image = "${HARBOR_HOST}/${HARBOR_CONTEXT_PATH}/${name}"
-		tags = ['latest', "${project.version}-${releaseTime()}", System.getenv('CI_COMMIT_REF_NAME')]
+		tags = ['latest', "${project.version}-${releaseTime()}", System.getenv('CI_COMMIT_TAG')]
 		auth {
 			username = System.getenv("CONTAINER_REPO_USERNAME") // Defined in 'gradle.properties'.
 			password = System.getenv("CONTAINER_REPO_PASSWORD")
