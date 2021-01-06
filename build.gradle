@@ -14,7 +14,8 @@ plugins {
 }
 
 ext {
-	set('HARBOR_HOST', "${findProperty('pro') ? 'registry.cn-beijing.aliyuncs.com' : 'harbor.mvmyun.com'}") // project arg
+	set('HARBOR_HOST', "${project.hasProperty('pro') ? 'registry.cn-beijing.aliyuncs.com' : 'harbor.mvmyun.com'}") // project arg
+	set('HARBOR_CONTEXT_PATH', "${project.hasProperty('pro') ? 'mvmyun' : 'hotel'}") // project arg
 	set('username', System.getenv("CONTAINER_REPO_USERNAME")) //System env variable
 	set('password', System.getenv("CONTAINER_REPO_PASSWORD"))
 }
@@ -31,8 +32,8 @@ jib {
 		image = 'harbor.mvmyun.com/library/openjdk:11.0.7-jre-slim'
 	}
 	to {
-		image = "${HARBOR_HOST}/mvmyun/${name}"
-		tags = ['latest', "${project.version}-${releaseTime()}"]
+		image = "${HARBOR_HOST}/${HARBOR_CONTEXT_PATH}/${name}"
+		tags = ['latest', "${project.version}-${releaseTime()}", System.getenv('CI_COMMIT_REF_NAME')]
 		auth {
 			username = System.getenv("CONTAINER_REPO_USERNAME") // Defined in 'gradle.properties'.
 			password = System.getenv("CONTAINER_REPO_PASSWORD")
