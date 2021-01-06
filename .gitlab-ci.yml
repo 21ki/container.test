@@ -20,7 +20,51 @@ variables:
 before_script:
   - export APP_TAG="${CI_COMMIT_TAG:-${CI_COMMIT_SHA::8}}"
 
+#gradle编译
+build_image_gradle:
+  stage: build
+  rules:
+    - if: '$CI_COMMIT_BRANCH  ==  "master" && $BUILD_TOOL == "gradle" '
+  tags:
+    - jks
+  script:
+    - echo ${APPLICATION}
+    - gradle jib  
 
-#定义流程
-stages:
-  - build
+#推送nexus的jar包
+build_image_mvn_deploy:
+  stage: build
+  rules:
+    - if: '$CI_COMMIT_BRANCH  ==  "master" && $BUILD_TOOL == "mvn_deploy"'
+  tags:
+    - jks
+  script:
+    - echo ${APPLICATION}
+    - mvn -B -q -gs $HOME/settings.xml clean deploy
+
+#mvn编译
+build_image_mvn_deploy:
+  stage: build
+  rules:
+    - if: '$CI_COMMIT_BRANCH  ==  "master" && $BUILD_TOOL == "mvn_deploy"'
+  tags:
+    - jks
+  script:
+    - echo ${APPLICATION}
+    - mvn -B -q -gs $HOME/settings.xml clean deploy
+
+#阿里云打包gradle编译
+build_aliyun_image_gradle:
+  stage: build
+  rules:
+    - if: '$CI_COMMIT_TAG !~ "/^$/" && $BUILD_TOOL == "gradle" '
+  variables:
+    CONTAINER_REPO_USERNAME: hi31813309@aliyun.com
+    CONTAINER_REPO_PASSWORD: xiaofan@1
+  tags:
+    - jks
+  script:
+    - echo ${APPLICATION}
+    - echo ${CI_COMMIT_TAG}
+    - echo ${CI_COMMIT_REF_NAME}
+    - gradle --stacktrace jib -Ppro
