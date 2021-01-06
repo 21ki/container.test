@@ -25,6 +25,7 @@ build_image_gradle:
   script:
     - echo ${APPLICATION}
     - echo ${APP_TAG}
+    - echo ${CI_COMMIT_TAG}
     - gradle jib  
 
 #推送nexus的jar包
