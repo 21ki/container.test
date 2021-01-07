@@ -15,7 +15,8 @@ variables:
 #运行前设置获取变量
 before_script:
   #- export CONTAINER_TAG="${CI_COMMIT_REF_NAME}"
-  - if [ "$CI_COMMIT_TAG" == "" ];then export CONTAINER_TAG="${CI_COMMIT_REF_NAME}";fi
+  #- if [ "$CI_COMMIT_TAG" == "" ];then export CONTAINER_TAG="${CI_COMMIT_REF_NAME}";fi
+  - if [ "$CI_COMMIT_TAG" == "" ];then echo CONTAINER_TAG="${CI_COMMIT_REF_NAME}" >> build.env;fi
 #gradle编译
 build_image_gradle:
   stage: build
