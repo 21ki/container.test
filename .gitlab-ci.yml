@@ -66,4 +66,5 @@ build_aliyun_image_gradle:
     - echo ${APPLICATION}
     - echo ${CI_COMMIT_TAG}
     - echo ${CI_COMMIT_REF_NAME}
+    - echo ${CONTAINER_TAG}
     - gradle --stacktrace jib -Ppro
