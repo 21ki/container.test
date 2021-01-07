@@ -27,7 +27,7 @@ build_image_gradle:
     - echo ${APPLICATION}
     - echo ${CONTAINER_TAG}
     - echo ${CI_COMMIT_TAG}
-    - echo $env
+    - env
     - gradle jib  
 
 #推送nexus的jar包
